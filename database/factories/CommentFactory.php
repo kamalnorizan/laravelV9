@@ -17,7 +17,9 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'comment'=>$this->faker->paragraph(rand(2,5)),
+            'user_id'=>rand(1,50),
+            'task_id'=>rand(1,100)
         ];
     }
 }
