@@ -13,7 +13,7 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function tutorial()
     {
         // $tasks = Task::where('id',10)->get();
         // $tasks = Task::where('id','<',10)->get();
@@ -26,15 +26,30 @@ class TaskController extends Controller
         // $tasks = Task::whereBetween('id',[1,20])->get();
         // $tasks = Task::whereYear('created_at','2022')->get();
 
-        foreach ($tasks as $key => $task_) {
-            echo  $task_->id.' | '.$task_->title.'<br>';
-        }
+        // foreach ($tasks as $key => $task_) {
+        //     echo  $task_->id.' | '.$task_->title.'<br>';
+        // }
 
-        // echo $tasks->first()->title;
+        // // echo $tasks->first()->title;
 
-        $task = Task::where('id',7)->first();
+        // $task = Task::where('id',7)->first();
 
-        echo $task->title;
+        // echo $task->title;
+
+        //relationship
+        // $tasks = Task::with('comments.user','user')->where('id','<',100)->get();
+        //  foreach ($tasks as $key => $task_) {
+        //     if($task_->comments->first()){
+        //         echo  $task_->id.' | '.$task_->comments->first()->comment.'~'.$task_->comments->first()->user->name.'<br>';
+        //     }
+        // }
+
+        // echo $tasks->comments;
+    }
+
+    public function index()
+    {
+        
     }
 
     /**

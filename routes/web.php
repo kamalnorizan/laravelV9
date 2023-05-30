@@ -18,6 +18,10 @@ DB::listen(function ($event) {
     dump($event->sql);
 });
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::get('/myfirstlaravel', function () {
     return view('welcome');
 });
@@ -29,3 +33,7 @@ Route::resource('todolist', TodolistController::class);
 
 
 Route::get('task', [TaskController::class,'index']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
