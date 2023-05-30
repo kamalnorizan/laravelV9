@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasFactory;
+
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'task_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function taskImages()
+    {
+        return $this->hasMany(TaskImage::class, 'task_id', 'id');
+    }
 }

@@ -41,4 +41,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function tasks() //Relhasmany
+    {
+        return $this->hasMany(Task::class, 'user_id', 'id');
+    }
+
+    public function comments() //Relhasmany
+    {
+        return $this->hasMany(Comment::class, 'user_id', 'id');
+    }
 }
