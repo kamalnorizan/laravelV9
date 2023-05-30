@@ -19,7 +19,12 @@ class TaskController extends Controller
         // $tasks = Task::where('id','<',10)->get();
         // $tasks = Task::whereIn('id',[1,3,5,7,9])->get();
         // $tasks = Task::whereNotNull('title')->get();
-        $tasks = Task::where('id','<',10)->where('title','like','%blanditiis%')->get();
+        // $tasks = Task::where('id','<',10)->where(function($q){
+        //     $q->where('title','like','%Explicabo%')->orWhere('title','like','%dolorem %');
+        // })->get();
+        // $tasks = Task::where('id','<',10)->where('title','like','%Explicabo%')->orWhere('title','like','%dolorem %')->get();
+        // $tasks = Task::whereBetween('id',[1,20])->get();
+        // $tasks = Task::whereYear('created_at','2022')->get();
 
         foreach ($tasks as $key => $task_) {
             echo  $task_->id.' | '.$task_->title.'<br>';
