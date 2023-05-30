@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Auth;
 class StoreTaskRequest extends FormRequest
 {
     /**
@@ -13,6 +13,9 @@ class StoreTaskRequest extends FormRequest
      */
     public function authorize()
     {
+        if (Auth::check()) {
+            return true;
+        }
         return false;
     }
 
@@ -24,7 +27,8 @@ class StoreTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title'=>'required',
+            'description'=>'required'
         ];
     }
 }

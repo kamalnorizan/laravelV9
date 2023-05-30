@@ -3,9 +3,10 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Senarai Task <a class="btn btn-sm btn-primary float-end" href="/task/create">New Task</a></div>
+                <div class="card-header">Senarai Task <a class="btn btn-sm btn-primary float-end" href="{{route('task.create')}}">New Task</a></div>
+                {{-- <div class="card-header">Senarai Task <a class="btn btn-sm btn-primary float-end" href="/task/create">New Task</a></div> --}}
 
                 <div class="card-body">
                    <table class="table" id="my-table">
@@ -20,7 +21,7 @@
                             <td>{{$key+1+(($tasks->currentPage()-1)*$tasks->perPage())}}</td>
                             <td>{{$task->title}}</td>
                             <td>{{$task->user->name}}</td>
-                            <td></td>
+                            <td><a href="{{route('task.show',['task'=> $task->id])}}" class="btn btn-sm btn-info">Show</a></td>
                         </tr>
                     @endforeach
                    </table>

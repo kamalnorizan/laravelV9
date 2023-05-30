@@ -8,7 +8,6 @@
                 <div class="card-header">New Task</div>
                 <div class="card-body">
                    {!! Form::open(['method' => 'POST', 'route' => 'task.store']) !!}
-
                        <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                            {!! Form::label('title', 'Title') !!}
                            {!! Form::text('title', null, ['class' => 'form-control', 'required' => 'required']) !!}

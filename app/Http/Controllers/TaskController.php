@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Auth;
 
 class TaskController extends Controller
 {
@@ -49,7 +50,7 @@ class TaskController extends Controller
 
     public function index()
     {
-        $tasks = Task::paginate(15);
+        $tasks = Task::latest()->paginate(15);
         return view('task.index',compact('tasks'));
     }
 
@@ -71,7 +72,14 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        //
+        $task = new Task;
+        $task->title = $request->title;
+        $task->description = $request->description;
+        $task->user_id = Auth::user()->id;
+        $task->save();
+
+        flash('New task successfully created!')->success()->important();
+        return redirect()->route('task.index');
     }
 
     /**
@@ -82,7 +90,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        dd($task);
     }
 
     /**
