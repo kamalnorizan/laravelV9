@@ -33,6 +33,7 @@ Route::resource('todolist', TodolistController::class);
 
 
 Route::get('task', [TaskController::class,'index']);
+Route::get('task/create', [TaskController::class,'create']);
 
 Auth::routes();
 
