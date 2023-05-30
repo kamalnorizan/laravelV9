@@ -15,7 +15,21 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        // $tasks = Task::where('id',10)->get();
+        // $tasks = Task::where('id','<',10)->get();
+        // $tasks = Task::whereIn('id',[1,3,5,7,9])->get();
+        // $tasks = Task::whereNotNull('title')->get();
+        $tasks = Task::where('id','<',10)->where('title','like','%blanditiis%')->get();
+
+        foreach ($tasks as $key => $task_) {
+            echo  $task_->id.' | '.$task_->title.'<br>';
+        }
+
+        // echo $tasks->first()->title;
+
+        $task = Task::where('id',7)->first();
+
+        echo $task->title;
     }
 
     /**

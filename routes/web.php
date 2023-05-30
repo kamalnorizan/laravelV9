@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Lab1Controller;
 use App\Http\Controllers\TodolistController;
+use App\Http\Controllers\TaskController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,3 +26,6 @@ Route::get('/myfirstview', [Lab1Controller::class,'index']);
 Route::get('/myfirstview/show', [Lab1Controller::class,'show']);
 
 Route::resource('todolist', TodolistController::class);
+
+
+Route::get('task', [TaskController::class,'index']);
