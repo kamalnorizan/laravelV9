@@ -32,8 +32,9 @@ Route::get('/myfirstview/show', [Lab1Controller::class,'show']);
 Route::resource('todolist', TodolistController::class);
 
 
-Route::get('task', [TaskController::class,'index']);
-Route::get('task/create', [TaskController::class,'create']);
+Route::get('task', [TaskController::class,'index'])->name('task.index');
+Route::get('task/create', [TaskController::class,'create'])->name('task.create');
+Route::post('task', [TaskController::class,'store'])->name('task.store');
 
 Auth::routes();
 
