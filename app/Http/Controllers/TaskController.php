@@ -90,7 +90,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        dd($task);
+        $task->load('comments.user.tasks','user');
+        return view('task.show',compact('task'));
     }
 
     /**
