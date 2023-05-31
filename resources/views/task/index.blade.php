@@ -37,7 +37,9 @@
                             <td>{{$key+1+(($tasks->currentPage()-1)*$tasks->perPage())}}</td>
                             <td>{{$task->title}}</td>
                             <td>{{$task->user->name}}</td>
-                            <td><a href="{{route('task.show',['task'=> $task->id])}}" class="btn btn-sm btn-info">Show</a></td>
+                            <td><a href="{{route('task.show',['task'=> $task->id])}}" class="btn btn-sm btn-info">Show</a>
+                                <a href="{{route('task.edit',['task'=> $task->id])}}" class="btn btn-sm btn-warning">Edit</a>
+                            </td>
                         </tr>
                     @endforeach
                    </table>

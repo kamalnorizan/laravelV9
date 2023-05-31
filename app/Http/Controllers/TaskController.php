@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Http\Request;
 use Auth;
+use DataTables;
 
 class TaskController extends Controller
 {
@@ -52,6 +54,22 @@ class TaskController extends Controller
     {
         $tasks = Task::latest()->paginate(15);
         return view('task.index',compact('tasks'));
+    }
+
+    public function indexdt()
+    {
+        $tasks = Task::latest()->get();
+        return view('task.indexdt',compact('tasks'));
+    }
+
+    public function ajaxLoadTasks(Request $request)
+    {
+        $tasks = Task::with('user')->select('tasks.*');
+        return DataTables::eloquent($tasks)
+        ->addColumn('action', function(Task $task){
+            return 'task';
+        })
+        ->make(true);
     }
 
     /**
