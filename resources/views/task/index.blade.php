@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('breadcrumb')
+<li class="breadcrumb-item"><a href="{{route('task.index')}}">Task</a></li>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

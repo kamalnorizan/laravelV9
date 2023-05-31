@@ -215,20 +215,23 @@
                 <div class="jumbotron" data-pages="parallax">
                     <div class="container-fluid   container-fixed-lg sm-p-l-0 sm-p-r-0">
                         <div class="inner">
-                            <!-- START BREADCRUMB -->
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item active">Blank template</li>
-                            </ol>
-                            <!-- END BREADCRUMB -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <ol class="breadcrumb">
+                                        @yield('breadcrumb')
+                                    </ol>
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- END JUMBOTRON -->
                 <!-- START CONTAINER FLUID -->
-                <div class="container-fluid   container-fixed-lg">
-                    <!-- BEGIN PlACE PAGE CONTENT HERE -->
-                    <!-- END PLACE PAGE CONTENT HERE -->
+                <div class="container-fluid   container-fixed-lg bahagianContent">
+                    @yield('content')
                 </div>
                 <!-- END CONTAINER FLUID -->
             </div>
@@ -368,6 +371,9 @@
             e.preventDefault();
             $('#logoutForm').submit();
         });
+
+
+
     </script>
     <!-- END PAGE LEVEL JS -->
     <!-- END CORE TEMPLATE JS -->
