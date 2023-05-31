@@ -195,7 +195,7 @@
                         <a href="#" class="dropdown-item">Features</a>
                         <a href="#" class="dropdown-item">Help</a>
                         <a href="#" class="dropdown-item">Settings</a>
-                        <a href="#" class="dropdown-item">Logout</a>
+                        <a href="#" class="dropdown-item logoutBtn">Logout</a>
                         <div class="dropdown-divider"></div>
                         <span class="dropdown-item fs-12 hint-text">Last edited by David<br />on Friday at 5:27PM</span>
                     </div>
@@ -339,7 +339,10 @@
             </div>
         </div>
         <!-- END Overlay Search Results !-->
-    </div>
+    </div>\
+    <form action="{{route('logout')}}" id="logoutForm" method="post">
+        @csrf
+    </form>
     <!-- END OVERLAY -->
     <!-- BEGIN VENDOR JS -->
     <script src="{{ asset('res/assets/plugins/pace/pace.min.js') }}" type="text/javascript"></script>
@@ -359,6 +362,13 @@
     <script src="{{ asset('res/pages/js/pages.js') }}"></script>
     <script src="{{ asset('res/assets/js/scripts.js') }}" type="text/javascript"></script>
     <script src="{{ asset('res/assets/js/scripts.js') }}" type="text/javascript"></script>
+
+    <script>
+        $('.logoutBtn').click(function (e) {
+            e.preventDefault();
+            $('#logoutForm').submit();
+        });
+    </script>
     <!-- END PAGE LEVEL JS -->
     <!-- END CORE TEMPLATE JS -->
   </body>

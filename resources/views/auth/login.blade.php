@@ -56,6 +56,7 @@
         <p class="mw-80 m-t-5">Sign in to your account</p>
         <!-- START Login Form -->
         <form id="form-login" method="POST" action="{{ route('login') }}">
+            @csrf
           <div class="form-group form-group-default">
             <label>Login</label>
             <div class="controls">
