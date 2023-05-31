@@ -1,7 +1,19 @@
 @extends('layouts.app')
 
+@section('head')
+<style>
+    .btn-primary{
+        background-color: blue;
+    }
+</style>
+@endsection
+
 @section('breadcrumb')
 <li class="breadcrumb-item"><a href="{{route('task.index')}}">Task</a></li>
+@endsection
+
+@section('actions')
+<a class="btn btn-sm btn-primary" href="{{route('task.create')}}">New Task</a>
 @endsection
 
 @section('content')
@@ -9,7 +21,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Senarai Task <a class="btn btn-sm btn-primary float-end" href="{{route('task.create')}}">New Task</a></div>
+                <div class="card-header">Senarai Task </div>
                 {{-- <div class="card-header">Senarai Task <a class="btn btn-sm btn-primary float-end" href="/task/create">New Task</a></div> --}}
 
                 <div class="card-body">
@@ -35,5 +47,14 @@
         </div>
     </div>
 </div>
+
 @endsection
 
+@section('script')
+
+
+
+<script>
+
+</script>
+@endsection

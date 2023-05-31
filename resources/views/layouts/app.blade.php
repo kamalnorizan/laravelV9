@@ -23,6 +23,7 @@
     <link class="main-stylesheet" href="{{ asset('res/pages/css/themes/corporate.css') }}" rel="stylesheet" type="text/css" />
     <!-- Please remove the file below for production: Contains demo classes -->
     <link class="main-stylesheet" href="{{ asset('res/assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+    @yield('head')
 </head>
 <body class="fixed-header menu-pin menu-behind">
     <!-- BEGIN SIDEBAR -->
@@ -221,8 +222,8 @@
                                         @yield('breadcrumb')
                                     </ol>
                                 </div>
-                                <div class="col-md-6">
-                                    
+                                <div class="col-md-6 text-right">
+                                    @yield('actions')
                                 </div>
                             </div>
                         </div>
@@ -365,16 +366,15 @@
     <script src="{{ asset('res/pages/js/pages.js') }}"></script>
     <script src="{{ asset('res/assets/js/scripts.js') }}" type="text/javascript"></script>
     <script src="{{ asset('res/assets/js/scripts.js') }}" type="text/javascript"></script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         $('.logoutBtn').click(function (e) {
             e.preventDefault();
             $('#logoutForm').submit();
         });
-
-
-
     </script>
+
+    @yield('script')
     <!-- END PAGE LEVEL JS -->
     <!-- END CORE TEMPLATE JS -->
   </body>
