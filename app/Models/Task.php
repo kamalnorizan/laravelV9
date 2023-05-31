@@ -9,6 +9,15 @@ class Task extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
+    protected $table = 'tasks';
+
+    protected $primaryKey = 'id';
+
+    public $incrementing = true;
+
+    protected $guarded = ['id'];
 
     public function comments()
     {

@@ -232,6 +232,11 @@
                 <!-- END JUMBOTRON -->
                 <!-- START CONTAINER FLUID -->
                 <div class="container-fluid   container-fixed-lg bahagianContent">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @include('flash::message')
+                        </div>
+                    </div>
                     @yield('content')
                 </div>
                 <!-- END CONTAINER FLUID -->

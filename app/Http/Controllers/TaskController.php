@@ -102,7 +102,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        return view('task.edit',compact('task'));
     }
 
     /**
@@ -114,7 +114,10 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        $task->update($request->all());
+        flash('Task updated successfully')->success()->important();
+
+        return redirect()->route('task.index');
     }
 
     /**
