@@ -58,13 +58,12 @@ class TaskController extends Controller
 
     public function indexdt()
     {
-        $tasks = Task::latest()->get();
-        return view('task.indexdt',compact('tasks'));
+        return view('task.indexdt');
     }
 
     public function ajaxLoadTasks(Request $request)
     {
-        $tasks = Task::select('tasks.*');
+        $tasks = Task::with('comments.user','user')->select('tasks.*');
         return DataTables::eloquent($tasks)
         ->addColumn('thetitle', function(Task $task){
             return $task->title.' | '.$task->comments->count(). ' comments';
