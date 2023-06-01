@@ -32,7 +32,7 @@
                         <td>{{strtoupper($role->name)}}</td>
                         <td>
                             @foreach ($role->permissions as $permission)
-                                <span class="badge badge-primary">{{$permission->name}}</span>
+                                <span class="badge bg-primary text-white">{{$permission->name}}</span>
                             @endforeach
                         </td>
                         <td>
@@ -69,12 +69,15 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+
+                    <input type="text" name="role_id" id="role_id" class="form-control" value="">
+
                     @foreach ($permissions as $permission)
                     <div class="col-md-4">
                         <div class="form-group">
                             <div class="checkbox{{ $errors->has('permission') ? ' has-error' : '' }} form-group-default ">
                                 <label for="permission">
-                                    {!! Form::checkbox('permission', $permission->id, null, ['id' => 'permission_'.$permission->id]) !!} {{strtoupper($permission->name)}}
+                                    {!! Form::checkbox('permission', $permission->id, null, ['id' => 'permission_'.$permission->id, 'class'=>'cb_permissions']) !!} {{strtoupper($permission->name)}}
                                 </label>
                             </div>
                             <small class="text-danger">{{ $errors->first('permission') }}</small>
@@ -94,6 +97,34 @@
 
 @section('script')
 <script>
+    $('.cb_permissions').click(function (e) {
+
+        var status = $(this).is(":checked");
+        var permission = $(this).val();
+        var role = $('#role_id').val();
+
+        $.ajax({
+            type: "post",
+            url: "{{ route('user.assignPermission')}}",
+            data: {
+                _token: '{{ csrf_token() }}',
+                status: status,
+                permission: permission,
+                role: role
+            },
+            dataType: "json",
+            success: function (response) {
+
+            }
+        });
+
+    });
+
+    $('#assignPermission-Modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var roleId = button.data('roleid');
+            $('#role_id').val(roleId);
+    });
 </script>
 @endsection
 

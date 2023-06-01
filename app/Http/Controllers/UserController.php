@@ -15,4 +15,18 @@ class UserController extends Controller
         $users = User::all();
         return view('users.index',compact('users','roles','permissions'));
     }
+
+    public function assignPermission(Request $request)
+    {
+        $role = Role::find($request->role);
+        $permission = Permission::find($request->permission);
+
+        if($request->status == 'true'){
+            $role->givePermissionTo($permission);
+        }else{
+            $role->revokePermissionTo($permission);
+        }
+        $data['role'] = $role;
+        return response()->json($data, 200);
+    }
 }
