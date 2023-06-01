@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Lab1Controller;
 use App\Http\Controllers\TodolistController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,3 +50,7 @@ Route::put('task/{task}', [TaskController::class,'update'])->name('task.update')
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('users', [UserController::class,'index'])->name('user.index');
+
