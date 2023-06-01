@@ -356,11 +356,12 @@
     <!-- BEGIN VENDOR JS -->
     <script src="{{ asset('res/assets/plugins/pace/pace.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('res/assets/plugins/liga.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('res/assets/plugins/jquery/jquery-3.2.1.min.js') }}" type="text/javascript"></script>
+    {{-- <script src="{{ asset('res/assets/plugins/jquery/jquery-3.2.1.min.js') }}" type="text/javascript"></script> --}}
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script> 
     <script src="{{ asset('res/assets/plugins/modernizr.custom.js') }}" type="text/javascript"></script>
     <script src="{{ asset('res/assets/plugins/jquery-ui/jquery-ui.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('res/assets/plugins/popper/umd/popper.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('res/assets/plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('res/assets/plugins/bootstrap/js/bootstrap.js') }}" type="text/javascript"></script>
     <script src="{{ asset('res/assets/plugins/jquery/jquery-easy.js') }}" type="text/javascript"></script>
     <script src="{{ asset('res/assets/plugins/jquery-unveil/jquery.unveil.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('res/assets/plugins/jquery-ios-list/jquery.ioslist.min.js') }}" type="text/javascript"></script>
@@ -369,7 +370,6 @@
     <script type="text/javascript" src="{{ asset('res/assets/plugins/select2/js/select2.full.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('res/assets/plugins/classie/classie.js') }}"></script>
     <script src="{{ asset('res/pages/js/pages.js') }}"></script>
-    <script src="{{ asset('res/assets/js/scripts.js') }}" type="text/javascript"></script>
     <script src="{{ asset('res/assets/js/scripts.js') }}" type="text/javascript"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
@@ -384,3 +384,4 @@
     <!-- END CORE TEMPLATE JS -->
   </body>
 </html>
+

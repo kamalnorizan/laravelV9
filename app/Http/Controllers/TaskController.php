@@ -64,10 +64,18 @@ class TaskController extends Controller
 
     public function ajaxLoadTasks(Request $request)
     {
-        $tasks = Task::with('user')->select('tasks.*');
+        $tasks = Task::select('tasks.*');
         return DataTables::eloquent($tasks)
         ->addColumn('action', function(Task $task){
             return 'task';
+        })
+        ->addColumn('author', function(Task $task){
+            $author = $task->user->name;
+            return $author;
+        })
+        ->addColumn('age', function(Task $task){
+            $age = rand(18,40);
+            return $age;
         })
         ->make(true);
     }
@@ -96,8 +104,13 @@ class TaskController extends Controller
         $task->user_id = Auth::user()->id;
         $task->save();
 
-        flash('New task successfully created!')->success()->important();
-        return redirect()->route('task.index');
+        if($request->ajax()){
+            $data['task'] = $task;
+            return response()->json($data, 200);
+        }else{
+            flash('New task successfully created!')->success()->important();
+            return redirect()->route('task.index');
+        }
     }
 
     /**

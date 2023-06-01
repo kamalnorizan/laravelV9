@@ -43,6 +43,7 @@
                         <tr>
                             <td>Title</td>
                             <td>Author</td>
+                            <td>Age</td>
                             <td>Action(s)</td>
                         </tr>
                     </thead>
@@ -67,10 +68,15 @@
                     </button>
             </div>
             <div class="modal-body">
-                Body
+                <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }} form-group-default ">
+                    {!! Form::label('title', 'Title') !!}
+                    {!! Form::text('title', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                    <small class="text-danger">{{ $errors->first('title') }}</small>
+                </div>
+                @include('task._form')
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="btn-closeTask"  class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button id="btn-saveTask" type="button" class="btn btn-primary">Save</button>
             </div>
         </div>
@@ -83,25 +89,62 @@
 
 <script src="https://cdn.datatables.net/v/bs4/jq-3.6.0/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/fc-4.2.2/r-2.4.1/datatables.min.js"></script>
 <script>
-    var myTable = $('#my-table').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ajax":{
-          "url": "{{ route('task.ajaxLoadTasks') }}",
-          "dataType": "json",
-          "type": 'post',
-          "data":{ _token: "{{csrf_token()}}"}
-        },
-        "columns": [
-            {data: 'title', name: 'title'},
-            {data: 'user.name', name: 'user.name'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+    $(document).ready(function () {
+
+        var myTable = $('#my-table').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+              "url": "{{ route('task.ajaxLoadTasks') }}",
+              "dataType": "json",
+              "type": 'post',
+              "data":{ _token: "{{csrf_token()}}"}
+            },
+            "columns": [
+                {data: 'title', name: 'title'},
+                {data: 'author', name: 'author'},
+                {data: 'age', name: 'age'},
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+            ]
+        });
+
+        $('#refreshBtn').click(function (e) {
+            e.preventDefault();
+            myTable.ajax.reload();
+        });
+
+        $('#btn-saveTask').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                url: "{{route('task.store')}}",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    title: $('#title').val(),
+                    description: $('#description').val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    swal("New Task Created Successfully",{
+                        icon:'success',
+                        buttons: {
+                            cancel: {
+                                text: "OK",
+                                value: null,
+                                visible: true,
+                                className: "",
+                                closeModal: true,
+                            }
+                        }
+                    }).then(()=>{
+                        myTable.ajax.reload();
+                        $('#btn-closeTask').click();
+                        // $('#task-modal').modal('hide');
+                    });
+                }
+            });
+        });
     });
 
-    $('#refreshBtn').click(function (e) {
-        e.preventDefault();
-        myTable.ajax.reload();
-    });
 </script>
 @endsection
