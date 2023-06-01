@@ -83,6 +83,7 @@ class TaskController extends Controller
         ->addColumn('action', function(Task $task){
             $buttons = '';
             $buttons .= '<button type="button" class="btn-sm btn-warning editBtn" data-id="'.$task->id.'" >Edit</button>';
+            $buttons .= '<button type="button" class="btn-sm btn-danger deleteBtn" data-id="'.$task->id.'" >Delete</button>';
             return $buttons;
         })
         ->make(true);
@@ -179,6 +180,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+        return response()->json(['status'=>'success'], 200);
     }
 }

@@ -14,9 +14,9 @@ use App\Http\Controllers\TaskController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// DB::listen(function ($event) {
-//     dump($event->sql);
-// });
+DB::listen(function ($event) {
+    dump($event->sql);
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -35,7 +35,7 @@ Route::resource('todolist', TodolistController::class);
 Route::get('task', [TaskController::class,'index'])->name('task.index');
 Route::post('task/ajaxLoadTasks', [TaskController::class,'ajaxLoadTasks'])->name('task.ajaxLoadTasks');
 Route::post('task/ajaxLoadTask', [TaskController::class,'ajaxLoadTask'])->name('task.ajaxLoadTask');
-
+Route::delete('task/{task}', [TaskController::class,'destroy'])->name('task.destroy');
 Route::get('task/create', [TaskController::class,'create'])->name('task.create');
 
 Route::post('task', [TaskController::class,'store'])->name('task.store');

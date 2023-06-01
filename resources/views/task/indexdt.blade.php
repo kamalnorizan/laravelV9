@@ -95,95 +95,92 @@
 
 <script src="https://cdn.datatables.net/v/bs4/dt-1.13.4/datatables.min.js"></script>
 <script>
-    $(document).ready(function () {
+    var myTable = $('#my-table').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax":{
+            "url": "{{ route('task.ajaxLoadTasks') }}",
+            "dataType": "json",
+            "type": 'post',
+            "data":{ _token: "{{csrf_token()}}"}
+        },
+        "columns": [
+            {data: 'thetitle', name: 'title'},
+            {data: 'author', name: 'author'},
+            {data: 'age', name: 'age'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
 
-        var myTable = $('#my-table').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax":{
-              "url": "{{ route('task.ajaxLoadTasks') }}",
-              "dataType": "json",
-              "type": 'post',
-              "data":{ _token: "{{csrf_token()}}"}
+    $('.refreshBtn').click(function (e) {
+        e.preventDefault();
+        myTable.ajax.reload();
+    });
+
+    $('#btn-saveTask').click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "post",
+            url: "{{route('task.store')}}",
+            data: {
+                _token: '{{ csrf_token() }}',
+                title: $('#title').val(),
+                description: $('#description').val(),
+                id: $('#id').val()
             },
-            "columns": [
-                {data: 'thetitle', name: 'title'},
-                {data: 'author', name: 'author'},
-                {data: 'age', name: 'age'},
-                {data: 'action', name: 'action', orderable: false, searchable: false},
-            ]
-        });
+            dataType: "json",
+            success: function (response) {
+                var msg = '';
+                if($('#id').val()==''){
 
-        $('.refreshBtn').click(function (e) {
-            e.preventDefault();
-            myTable.ajax.reload();
-        });
+                    msg = 'New Task Created Successfully';
+                }else{
 
-        $('#btn-saveTask').click(function (e) {
-            e.preventDefault();
-            $.ajax({
-                type: "post",
-                url: "{{route('task.store')}}",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    title: $('#title').val(),
-                    description: $('#description').val(),
-                    id: $('#id').val()
-                },
-                dataType: "json",
-                success: function (response) {
-                    var msg = '';
-                    if($('#id').val()==''){
-
-                        msg = 'New Task Created Successfully';
-                    }else{
-
-                        msg = 'Task updated Successfully';
-                    }
-                    swal(msg,{
-                        icon:'success',
-                        buttons: {
-                            cancel: {
-                                text: "OK",
-                                value: null,
-                                visible: true,
-                                className: "",
-                                closeModal: true,
-                            }
+                    msg = 'Task updated Successfully';
+                }
+                swal(msg,{
+                    icon:'success',
+                    buttons: {
+                        cancel: {
+                            text: "OK",
+                            value: null,
+                            visible: true,
+                            className: "",
+                            closeModal: true,
                         }
-                    }).then(()=>{
-                        myTable.ajax.reload();
-                        $('#task-modal').modal('hide');
+                    }
+                }).then(()=>{
+                    myTable.ajax.reload();
+                    $('#task-modal').modal('hide');
 
-                    });
-                }
-            });
+                });
+            }
+        });
+    });
+
+
+
+    $(document).on("click",".editBtn",function (e) {
+        var id = $(this).attr('data-id');
+
+        $.ajax({
+            type: "post",
+            url: "{{route('task.ajaxLoadTask')}}",
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id
+            },
+            dataType: "json",
+            success: function (response) {
+                $('#title').val(response.title);
+                $('#id').val(response.id);
+                // $('#title').attr('disabled',true);
+                $('#taskTitle').text('Update task')
+                $('#description').val(response.description);
+                $('#task-modal').modal('show');
+            }
         });
 
-
-
-        $(document).on("click",".editBtn",function (e) {
-            var id = $(this).attr('data-id');
-
-            $.ajax({
-                type: "post",
-                url: "{{route('task.ajaxLoadTask')}}",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    id: id
-                },
-                dataType: "json",
-                success: function (response) {
-                    $('#title').val(response.title);
-                    $('#id').val(response.id);
-                    // $('#title').attr('disabled',true);
-                    $('#taskTitle').text('Update task')
-                    $('#description').val(response.description);
-                    $('#task-modal').modal('show');
-                }
-            });
-
-        });
     });
 
     $('#task-modal').on('hide.bs.modal', function (event) {
@@ -191,6 +188,46 @@
         $('#title').attr('disabled',false);
         $('#id').val('');
         $('#taskForm')[0].reset();
+    });
+
+    $(document).on("click",".deleteBtn",function (e) {
+        var id = $(this).attr('data-id');
+
+        swal({
+            title: "Are you sure?",
+            text: "This action cannot be undone",
+            icon: "warning",
+            buttons: {cancel: {
+                text: "Cancel",
+                value: null,
+                visible: true,
+                className: "",
+                closeModal: true,
+            },
+            confirm: {
+                text: "Yes, i'm sure!",
+                value: true,
+                visible: true,
+                className: "btn-danger",
+                closeModal: true
+            }}
+        }).then((value)=>{
+            if(value==true){
+                $.ajax({
+                    type: "post",
+                    url: "/task/"+id,
+                    data: {
+                        _token: '{{csrf_token()}}',
+                        _method: 'DELETE'
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        swal("Deleted!", "The task has been deleted successfully.", "success");
+                        myTable.ajax.reload();
+                    }
+                });
+            }
+        });
     });
 
 </script>
