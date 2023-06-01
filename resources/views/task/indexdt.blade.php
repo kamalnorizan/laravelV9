@@ -37,7 +37,7 @@
                 {{-- <div class="card-header">Senarai Task <a class="btn btn-sm btn-primary float-end" href="/task/create">New Task</a></div> --}}
 
                 <div class="card-body">
-                    <button class="btn btn-primary" id="refreshBtn" type="button">Refresh</button>
+                    <button class="btn btn-primary refreshBtn" type="button">Refresh</button>
                    <table class="table" id="my-table">
                     <thead>
                         <tr>
@@ -68,12 +68,14 @@
                     </button>
             </div>
             <div class="modal-body">
-                <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }} form-group-default ">
-                    {!! Form::label('title', 'Title') !!}
-                    {!! Form::text('title', null, ['class' => 'form-control', 'required' => 'required']) !!}
-                    <small class="text-danger">{{ $errors->first('title') }}</small>
-                </div>
-                @include('task._form')
+                <form id="taskForm">
+                    <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }} form-group-default ">
+                        {!! Form::label('title', 'Title') !!}
+                        {!! Form::text('title', null, ['class' => 'form-control', 'required' => 'required']) !!}
+                        <small class="text-danger">{{ $errors->first('title') }}</small>
+                    </div>
+                    @include('task._form')
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" id="btn-closeTask"  class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -101,14 +103,14 @@
               "data":{ _token: "{{csrf_token()}}"}
             },
             "columns": [
-                {data: 'title', name: 'title'},
+                {data: 'thetitle', name: 'title'},
                 {data: 'author', name: 'author'},
                 {data: 'age', name: 'age'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });
 
-        $('#refreshBtn').click(function (e) {
+        $('.refreshBtn').click(function (e) {
             e.preventDefault();
             myTable.ajax.reload();
         });
@@ -139,10 +141,20 @@
                     }).then(()=>{
                         myTable.ajax.reload();
                         $('#btn-closeTask').click();
+                        $('#taskForm')[0].reset();
                         // $('#task-modal').modal('hide');
                     });
                 }
             });
+        });
+
+        // $('.editBtn').click(function (e) {
+        //     e.preventDefault();
+        //     alert('test');
+        // });
+
+        $(document).on("click",".editBtn",function (e) {
+            alert('test');
         });
     });
 

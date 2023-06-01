@@ -66,6 +66,9 @@ class TaskController extends Controller
     {
         $tasks = Task::select('tasks.*');
         return DataTables::eloquent($tasks)
+        ->addColumn('thetitle', function(Task $task){
+            return $task->title.' | '.$task->comments->count(). ' comments';
+        })
         ->addColumn('action', function(Task $task){
             return 'task';
         })
@@ -76,6 +79,11 @@ class TaskController extends Controller
         ->addColumn('age', function(Task $task){
             $age = rand(18,40);
             return $age;
+        })
+        ->addColumn('action', function(Task $task){
+            $buttons = '';
+            $buttons .= '<button type="button" class="btn-sm btn-warning editBtn" data-id="'.$task->id.'" >Edit</button>';
+            return $buttons;
         })
         ->make(true);
     }
