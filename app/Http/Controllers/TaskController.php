@@ -88,6 +88,13 @@ class TaskController extends Controller
         ->make(true);
     }
 
+    public function ajaxLoadTask(Request $request)
+    {
+        $task = Task::find($request->id);
+
+        return response()->json($task, 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -4,7 +4,8 @@
 {{-- <link rel="stylesheet" href="{{ asset('res/assets/plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('res/assets/plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css') }}">
 <link rel="stylesheet" href="{{ asset('res/assets/plugins/datatables-responsive/css/datatables.responsive.css') }}"> --}}
-<link href="https://cdn.datatables.net/v/bs4/jq-3.6.0/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/fc-4.2.2/r-2.4.1/datatables.min.css" rel="stylesheet"/>
+
+<link href="https://cdn.datatables.net/v/bs4/dt-1.13.4/datatables.min.css" rel="stylesheet"/>
 <style>
     .btn-primary{
         background-color: blue;
@@ -62,7 +63,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">New Task</h5>
+                <h5 class="modal-title" id="taskTitle">New Task</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -89,7 +90,7 @@
 @section('script')
 
 
-<script src="https://cdn.datatables.net/v/bs4/jq-3.6.0/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/fc-4.2.2/r-2.4.1/datatables.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/dt-1.13.4/datatables.min.js"></script>
 <script>
     $(document).ready(function () {
 
@@ -140,22 +141,38 @@
                         }
                     }).then(()=>{
                         myTable.ajax.reload();
-                        $('#btn-closeTask').click();
-                        $('#taskForm')[0].reset();
-                        // $('#task-modal').modal('hide');
+                        $('#task-modal').modal('hide');
+
                     });
                 }
             });
         });
 
-        // $('.editBtn').click(function (e) {
-        //     e.preventDefault();
-        //     alert('test');
-        // });
-
         $(document).on("click",".editBtn",function (e) {
-            alert('test');
+            var id = $(this).attr('data-id');
+
+            $.ajax({
+                type: "post",
+                url: "{{route('task.ajaxLoadTask')}}",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id
+                },
+                dataType: "json",
+                success: function (response) {
+                    $('#title').val(response.title);
+                    $('#taskTitle').text('Update task')
+                    $('#description').val(response.description);
+                    $('#task-modal').modal('show');
+                }
+            });
+
         });
+    });
+
+    $('#task-modal').on('hide.bs.modal', function (event) {
+        $('#taskTitle').text('New task');
+        $('#taskForm')[0].reset();
     });
 
 </script>

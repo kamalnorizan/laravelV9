@@ -34,6 +34,7 @@ Route::resource('todolist', TodolistController::class);
 
 Route::get('task', [TaskController::class,'index'])->name('task.index');
 Route::post('task/ajaxLoadTasks', [TaskController::class,'ajaxLoadTasks'])->name('task.ajaxLoadTasks');
+Route::post('task/ajaxLoadTask', [TaskController::class,'ajaxLoadTask'])->name('task.ajaxLoadTask');
 
 Route::get('task/create', [TaskController::class,'create'])->name('task.create');
 
