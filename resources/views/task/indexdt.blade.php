@@ -25,7 +25,7 @@
 @endsection
 
 @section('actions')
-<a class="btn btn-sm btn-primary" href="{{route('task.create')}}">New Task</a>
+<button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#task-modal">New Task</button>
 @endsection
 
 @section('content')
@@ -37,6 +37,7 @@
                 {{-- <div class="card-header">Senarai Task <a class="btn btn-sm btn-primary float-end" href="/task/create">New Task</a></div> --}}
 
                 <div class="card-body">
+                    <button class="btn btn-primary" id="refreshBtn" type="button">Refresh</button>
                    <table class="table" id="my-table">
                     <thead>
                         <tr>
@@ -54,6 +55,27 @@
     </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="task-modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                Body
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="btn-saveTask" type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
@@ -61,7 +83,7 @@
 
 <script src="https://cdn.datatables.net/v/bs4/jq-3.6.0/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/fc-4.2.2/r-2.4.1/datatables.min.js"></script>
 <script>
-    $myTable = $('#my-table').DataTable({
+    var myTable = $('#my-table').DataTable({
         "processing": true,
         "serverSide": true,
         "ajax":{
@@ -75,6 +97,11 @@
             {data: 'user.name', name: 'user.name'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
+    });
+
+    $('#refreshBtn').click(function (e) {
+        e.preventDefault();
+        myTable.ajax.reload();
     });
 </script>
 @endsection
