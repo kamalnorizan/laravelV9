@@ -113,7 +113,11 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $task = new Task;
+        if($request->has('id') && $request->id != ''){
+            $task = Task::find($request->id);
+        }else{
+            $task = new Task;
+        }
         $task->title = $request->title;
         $task->description = $request->description;
         $task->user_id = Auth::user()->id;
@@ -160,6 +164,7 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
+
         $task->update($request->all());
         flash('Task updated successfully')->success()->important();
 

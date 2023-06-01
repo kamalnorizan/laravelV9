@@ -70,6 +70,9 @@
             </div>
             <div class="modal-body">
                 <form id="taskForm">
+
+                    <input type="text" id="id" class="form-control" value="">
+
                     <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }} form-group-default ">
                         {!! Form::label('title', 'Title') !!}
                         {!! Form::text('title', null, ['class' => 'form-control', 'required' => 'required']) !!}
@@ -124,11 +127,20 @@
                 data: {
                     _token: '{{ csrf_token() }}',
                     title: $('#title').val(),
-                    description: $('#description').val()
+                    description: $('#description').val(),
+                    id: $('#id').val()
                 },
                 dataType: "json",
                 success: function (response) {
-                    swal("New Task Created Successfully",{
+                    var msg = '';
+                    if($('#id').val()==''){
+
+                        msg = 'New Task Created Successfully';
+                    }else{
+
+                        msg = 'Task updated Successfully';
+                    }
+                    swal(msg,{
                         icon:'success',
                         buttons: {
                             cancel: {
@@ -148,6 +160,8 @@
             });
         });
 
+
+
         $(document).on("click",".editBtn",function (e) {
             var id = $(this).attr('data-id');
 
@@ -161,6 +175,8 @@
                 dataType: "json",
                 success: function (response) {
                     $('#title').val(response.title);
+                    $('#id').val(response.id);
+                    // $('#title').attr('disabled',true);
                     $('#taskTitle').text('Update task')
                     $('#description').val(response.description);
                     $('#task-modal').modal('show');
@@ -172,6 +188,8 @@
 
     $('#task-modal').on('hide.bs.modal', function (event) {
         $('#taskTitle').text('New task');
+        $('#title').attr('disabled',false);
+        $('#id').val('');
         $('#taskForm')[0].reset();
     });
 
