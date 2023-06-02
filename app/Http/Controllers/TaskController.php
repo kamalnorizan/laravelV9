@@ -81,8 +81,12 @@ class TaskController extends Controller
         })
         ->addColumn('action', function(Task $task){
             $buttons = '';
-            $buttons .= '<button type="button" class="btn-sm btn-warning editBtn" data-id="'.$task->id.'" >Edit</button>';
-            $buttons .= '<button type="button" class="btn-sm btn-danger deleteBtn" data-id="'.$task->id.'" >Delete</button>';
+            if (Auth::user()->can('update task')) {
+                $buttons .= '<button type="button" class="btn-sm btn-warning editBtn" data-id="'.$task->id.'" >Edit</button>';
+            }
+            if (Auth::user()->can('delete task')) {
+                $buttons .= '<button type="button" class="btn-sm btn-danger deleteBtn" data-id="'.$task->id.'" >Delete</button>';
+            }
             return $buttons;
         })
         ->make(true);

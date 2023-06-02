@@ -48,12 +48,14 @@
                 </a>
                 <span class="icon-thumbnail"><i class="pg-icon">copy</i></span>
             </li>
+            @can('dashboard task')
             <li class="">
                 <a href="{{route('task.indexdt')}}" class="detailed">
                     <span class="title">Task SPA</span>
                 </a>
                 <span class="icon-thumbnail"><i class="pg-icon">copy</i></span>
             </li>
+            @endcan
             <li class="">
                 <a href="#" class="detailed logoutBtn">
                     <span class="title">Logout</span>

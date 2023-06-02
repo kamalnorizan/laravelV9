@@ -22,11 +22,15 @@
 @endsection
 
 @section('breadcrumb')
+
 <li class="breadcrumb-item"><a href="{{route('task.index')}}">Task</a></li>
+
 @endsection
 
 @section('actions')
+@can('create task')
 <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#task-modal">New Task</button>
+@endcan
 @endsection
 
 @section('content')
