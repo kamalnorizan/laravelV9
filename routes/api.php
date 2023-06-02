@@ -19,7 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post("login", [PassportAuthController::class, 'login']);
+Route::post("register", [PassportAuthController::class, 'register']);
+Route::get("logout", [PassportAuthController::class, 'logout'])->middleware('auth:api');
 Route::get("alltasks", [PassportAuthController::class, 'alltasks']);
 Route::get("mytasks", [PassportAuthController::class, 'mytasks'])->middleware('auth:api');
 Route::get("task/{task}", [PassportAuthController::class, 'task']);
-
+Route::post('task', [PassportAuthController::class, 'store'])->middleware('auth:api');
