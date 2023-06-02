@@ -54,4 +54,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('users', [UserController::class,'index'])->name('user.index');
 Route::post('users/assignPermission', [UserController::class,'assignPermission'])->name('user.assignPermission');
+Route::post('users/getPermissions', [UserController::class,'getPermissions'])->name('user.getPermissions');
+Route::post('users/ajaxLoadDataTable', [UserController::class,'ajaxLoadDataTable'])->name('user.ajaxLoadDataTable');
 
