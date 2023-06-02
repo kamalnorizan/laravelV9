@@ -31,6 +31,28 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
+    public function assignRolePermission(Request $request)
+    {
+        $user = User::find($request->userId);
+
+        if($request->type == 'role'){
+            if($request->status == 'true'){
+                $user->assignRole(Role::find($request->id)->name);
+            }else{
+                $user->removeRole(Role::find($request->id)->name);
+            }
+        }else{
+            if($request->status == 'true'){
+                $user->givePermissionTo(Permission::find($request->id)->name);
+            }else{
+                $user->revokePermissionTo(Permission::find($request->id)->name);
+            }
+        }
+        $user->load('roles');
+        $user->load('permissions');
+        return response()->json($user, 200);
+    }
+
     public function getPermissions(Request $request)
     {
         $role = Role::find($request->role);

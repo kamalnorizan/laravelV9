@@ -288,7 +288,39 @@
         });
     });
 
+    $('.cbu_permissions').click(function (e) {
 
+        var status = $(this).is(":checked");
+        var id = $(this).val();
+        assignRolePermission('permission', id, status);
+    });
+
+    $('.cbu_roles').click(function (e) {
+
+        var status = $(this).is(":checked");
+        var id = $(this).val();
+        assignRolePermission('role', id, status);
+    });
+
+    function assignRolePermission(type, id, status){
+        var userId = $('#user_id').val();
+
+        $.ajax({
+            type: "post",
+            url: "{{route('user.assignRolePermission')}}",
+            data: {
+                _token: '{{ csrf_token() }}',
+                userId: userId,
+                type : type,
+                status : status,
+                id : id
+            },
+            dataType: "json",
+            success: function (response) {
+                userTable.ajax.reload();
+            }
+        });
+    }
 
 </script>
 @endsection
