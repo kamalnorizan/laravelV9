@@ -43,15 +43,18 @@ class UserController extends Controller
         $users = User::with('roles.permissions','permissions')->select('*');
         return DataTables::eloquent($users)
         ->addColumn('permissions', function(User $user){
-            $role='';
+            $userRole='';
             foreach ($user->roles as $key => $role) {
                 $role.='<span class="badge badge-pill badge-primary">'.$role->name.'</span>';
             }
-            return $role;
+            foreach ($user->permissions as $key => $permission) {
+                $userRole.='<span class="badge badge-pill badge-info">'.$permission->name.'</span>';
+            }
+            return $userRole;
         })
         ->addColumn('actions', function(User $user){
             $buttons = '';
-            $buttons .= '<button type="button" class="btn-sm btn-warning assignPermission" data-id="'.$user->id.'" >Assign Permission</button>';
+            $buttons .= '<button type="button" class="btn-sm btn-warning assignPermission" data-id="'.$user->id.'"  data-toggle="modal" data-target="#assignRole-Model">Assign Permission</button>';
             return $buttons;
         })
         ->rawColumns(['actions'])

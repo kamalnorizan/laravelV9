@@ -130,6 +130,56 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="assignRole-Model" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assign Role(s)/Permission(s)</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12"><strong>Role(s)</strong></div>
+                    @foreach ($roles as $role)
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="checkbox{{ $errors->has('role') ? ' has-error' : '' }} form-group-default ">
+                                    <label for="permission">
+                                        {!! Form::checkbox('role', $role->id, null, ['id' => 'cbu_role_'.$role->id, 'class'=>'cbu_roles']) !!} {{strtoupper($role->name)}}
+                                    </label>
+                                </div>
+                                <small class="text-danger">{{ $errors->first('permission') }}</small>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><strong>Permission(s)</strong></div>
+                    @foreach ($permissions as $permission)
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="checkbox{{ $errors->has('permission') ? ' has-error' : '' }} form-group-default ">
+                                    <label for="permission">
+                                        {!! Form::checkbox('permission', $permission->id, null, ['id' => 'cbu_permission_'.$permission->id, 'class'=>'cbu_permissions']) !!} {{strtoupper($permission->name)}}
+                                    </label>
+                                </div>
+                                <small class="text-danger">{{ $errors->first('permission') }}</small>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
