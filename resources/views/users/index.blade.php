@@ -131,7 +131,6 @@
     </div>
 </div>
 
-
 <!-- Modal -->
 <div class="modal fade" id="assignRole-Model" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -143,6 +142,9 @@
                     </button>
             </div>
             <div class="modal-body">
+
+                <input type="hidden" name="user_id" id="user_id" class="form-control" value="">
+
                 <div class="row">
                     <div class="col-md-12"><strong>Role(s)</strong></div>
                     @foreach ($roles as $role)
@@ -185,7 +187,7 @@
 @section('script')
 <script src="https://cdn.datatables.net/v/bs4/dt-1.13.4/datatables.min.js"></script>
 <script>
-      $('#usrTable').DataTable({
+    var userTable = $('#usrTable').DataTable({
         "processing": true,
         "serverSide": true,
         "ajax":{
@@ -197,7 +199,7 @@
         "columns": [
           { "data": "name" },
           { "data": "email" },
-          { "data": "permissions", "name": "roles.name" },
+          { "data": "permissions"},
           { "data": "actions" }
         ]
     });
@@ -230,7 +232,6 @@
 
     });
 
-
     $('#assignPermission-Modal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var roleId = button.data('roleid');
@@ -254,6 +255,40 @@
             }
         });
     });
+
+    $('#assignRole-Model').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var userId = button.data('id');
+        $('#user_id').val(userId);
+        $.each($('.cbu_permissions'), function (indexInArray, cbu_permission) {
+            $(cbu_permission).prop('checked',false);
+        });
+
+        $.each($('.cbu_roles'), function (indexInArray, cbu_role) {
+            $(cbu_role).prop('checked',false);
+        });
+
+        $.ajax({
+            type: "post",
+            url: "{{route('user.getRolePermissions')}}",
+            data: {
+                _token: '{{ csrf_token() }}',
+                userId: userId
+            },
+            dataType: "json",
+            success: function (response) {
+                $.each(response.roles, function (indexInArray, role) {
+                    $('#cbu_role_'+role.id).prop('checked',true);
+                });
+
+                $.each(response.permissions, function (indexInArray, permission) {
+                    $('#cbu_permission_'+permission.id).prop('checked',true);
+                });
+            }
+        });
+    });
+
+
 
 </script>
 @endsection

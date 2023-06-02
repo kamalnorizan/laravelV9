@@ -38,6 +38,19 @@ class UserController extends Controller
         return response()->json($role, 200);
     }
 
+    public function getRolePermissions(Request $request)
+    {
+        $user = User::find($request->userId);
+        $roles = $user->roles;
+        $permissions = $user->getDirectPermissions();
+
+        $data['roles'] = $roles;
+        $data['permissions'] = $permissions;
+
+        return response()->json($data, 200);
+
+    }
+
     public function ajaxLoadDataTable(Request $request)
     {
         $users = User::with('roles.permissions','permissions')->select('*');
@@ -45,7 +58,7 @@ class UserController extends Controller
         ->addColumn('permissions', function(User $user){
             $userRole='';
             foreach ($user->roles as $key => $role) {
-                $role.='<span class="badge badge-pill badge-primary">'.$role->name.'</span>';
+                $userRole.='<span class="badge badge-pill bg-primary text-white">'.$role->name.'</span>';
             }
             foreach ($user->permissions as $key => $permission) {
                 $userRole.='<span class="badge badge-pill badge-info">'.$permission->name.'</span>';
@@ -57,7 +70,7 @@ class UserController extends Controller
             $buttons .= '<button type="button" class="btn-sm btn-warning assignPermission" data-id="'.$user->id.'"  data-toggle="modal" data-target="#assignRole-Model">Assign Permission</button>';
             return $buttons;
         })
-        ->rawColumns(['actions'])
+        ->rawColumns(['actions','permissions'])
         ->make(true);
     }
 }
